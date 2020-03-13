@@ -1,20 +1,22 @@
 package com.example.githubrepolist.View
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubrepolist.Adapter.UsersRepoAdapter
-
 import com.example.githubrepolist.R
+import com.example.githubrepolist.Service.UserRepoAPIService.Companion.dynamicUrl
 import com.example.githubrepolist.ViewModel.UserRepoViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -51,26 +53,45 @@ class HomeFragment : Fragment() {
 
         viewModel= ViewModelProviders.of(this).get(UserRepoViewModel::class.java)
 
-
         repoRecyclerView.layoutManager = LinearLayoutManager(context)
         repoRecyclerView.adapter = usersRepoAdapter
 
-
-
         userSearchSubmitButton.setOnClickListener{
+            MainActivity().hideSoftKeyboard()
+            dynamicUrl=userSearchEditText.text.toString()
             viewModel.getUseRepoDataFromApi()
         }
-
 
         temp_button.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToRepoDetailFragment()
             Navigation.findNavController(it).navigate(action)
         }
+        observableLiveData()
 
 
+        userSearchEditText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(
+                v: View?,
+                keyCode: Int,
+                event: KeyEvent
+            ): Boolean { // If the event is a key-down event on the "enter" button
+                if (event.action === KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) { // Perform action on key press
+                    userSearchSubmitButton.performClick()
+                    return true
+                }
+                return false
+            }
+        })
     }
 
-    companion object {
-
+    fun observableLiveData(){
+        viewModel.usersRepoList.observe(this, Observer{
+            UserRepo ->
+                UserRepo.let {
+                    usersRepoAdapter.updateUsersRepoList(UserRepo)
+                }
+        })
     }
 }

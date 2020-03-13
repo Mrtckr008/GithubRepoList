@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface UserRepoApi {
-    @GET("users/{user}/repos")
-    fun getUsersRepo(@Path(value = "user", encoded = true) userId:String): Single<List<UserRepo>>
+    @GET("users/{user_id}/repos")
+    fun getUsersRepo(@Path(value = "user_id", encoded = true) userId:String): Single<List<UserRepo>>
 }

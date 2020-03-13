@@ -1,7 +1,10 @@
 package com.example.githubrepolist.View
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -20,10 +23,16 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this,navigationController)
 
 
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navigationController,null)
+    }
+
+    fun hideSoftKeyboard(delay: Boolean = false) {
+        if (currentFocus != null) {
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
     }
 }

@@ -11,12 +11,10 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 
 class UserRepoViewModel: ViewModel() {
-
     private val userRepoAPIService = UserRepoAPIService()
     private val disposable = CompositeDisposable()          // her calldan sonra hafızayı boşaltmak için ders 34-2:36,
 
     val usersRepoList = MutableLiveData<List<UserRepo>>()
-
 
     fun getUseRepoDataFromApi(){
         disposable.add(
@@ -29,11 +27,9 @@ class UserRepoViewModel: ViewModel() {
                     }
 
                     override fun onError(e: Throwable) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                     }
 
                 })
         )
     }
-
 }
