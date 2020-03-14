@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.githubrepolist.View.HomeFragment"
+        android:name="com.example.githubrepolist.view.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_repoDetailFragment"
@@ -13,6 +13,6 @@
     </fragment>
     <fragment
         android:id="@+id/repoDetailFragment"
-        android:name="com.example.githubrepolist.View.RepoDetailFragment"
+        android:name="com.example.githubrepolist.view.RepoDetailFragment"
         android:label="RepoDetailFragment" />
 </navigation>

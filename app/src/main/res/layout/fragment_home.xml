@@ -28,13 +28,15 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@null"
+            android:background="@android:color/white"
             android:ems="10"
             android:hint="Username"
-            android:inputType="textPersonName"
+            android:imeOptions="actionDone|actionSearch"
             android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@+id/submit_button"
             app:layout_constraintStart_toStartOf="parent"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+            android:inputType="textFilter"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button

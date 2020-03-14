@@ -1,4 +1,4 @@
-package com.example.githubrepolist.View
+package com.example.githubrepolist.view
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -7,20 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.githubrepolist.Adapter.UsersRepoAdapter
+import com.example.githubrepolist.adapter.UsersRepoAdapter
 import com.example.githubrepolist.R
-import com.example.githubrepolist.Service.UserRepoAPIService.Companion.dynamicUrl
-import com.example.githubrepolist.ViewModel.UserRepoViewModel
+import com.example.githubrepolist.service.UserRepoAPIService.Companion.dynamicUrl
+import com.example.githubrepolist.viewmodel.UserRepoViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
-
+@Suppress("DEPRECATED_IDENTITY_EQUALS")
 class HomeFragment : Fragment() {
 
     private val usersRepoAdapter = UsersRepoAdapter(arrayListOf())
@@ -28,7 +27,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -57,27 +55,15 @@ class HomeFragment : Fragment() {
         repoRecyclerView.adapter = usersRepoAdapter
 
         userSearchSubmitButton.setOnClickListener{
-            MainActivity().hideSoftKeyboard()
+         //   activity.hideSoftKeyboard(false)
             dynamicUrl=userSearchEditText.text.toString()
             viewModel.getUseRepoDataFromApi()
         }
-
-        temp_button.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToRepoDetailFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
         observableLiveData()
 
-
         userSearchEditText.setOnKeyListener(object : View.OnKeyListener {
-            override fun onKey(
-                v: View?,
-                keyCode: Int,
-                event: KeyEvent
-            ): Boolean { // If the event is a key-down event on the "enter" button
-                if (event.action === KeyEvent.ACTION_DOWN &&
-                    keyCode == KeyEvent.KEYCODE_ENTER
-                ) { // Perform action on key press
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                if (event.action === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                     userSearchSubmitButton.performClick()
                     return true
                 }
@@ -86,10 +72,10 @@ class HomeFragment : Fragment() {
         })
     }
 
-    fun observableLiveData(){
+    private fun observableLiveData(){
         viewModel.usersRepoList.observe(this, Observer{
             UserRepo ->
-                UserRepo.let {
+                UserRepo?.let {
                     usersRepoAdapter.updateUsersRepoList(UserRepo)
                 }
         })

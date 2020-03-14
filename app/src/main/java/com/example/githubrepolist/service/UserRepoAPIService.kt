@@ -1,6 +1,6 @@
-package com.example.githubrepolist.Service
+package com.example.githubrepolist.service
 
-import com.example.githubrepolist.Model.UserRepo
+import com.example.githubrepolist.model.UserRepo
 import io.reactivex.Single
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
