@@ -1,19 +1,16 @@
 package com.example.githubrepolist.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
-
+import androidx.fragment.app.Fragment
 import com.example.githubrepolist.R
 import com.example.githubrepolist.adapter.UsersRepoAdapter.Companion.selectedPosition
 import com.example.githubrepolist.adapter.UsersRepoAdapter.Companion.userRepoListForHomeFragment
 import com.example.githubrepolist.utils.Util
-import com.example.githubrepolist.viewmodel.UserRepoViewModel
 
 
 class RepoDetailFragment : Fragment() {
@@ -22,6 +19,7 @@ class RepoDetailFragment : Fragment() {
     var repoStarsText:TextView?=null
     var repoOpenIssues:TextView?=null
     private lateinit var utils : Util
+  //  private lateinit var mainActivity: MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -39,6 +37,8 @@ class RepoDetailFragment : Fragment() {
         utils= Util()
         findViews(view)
         setViewDatas()
+        val mainActivity = activity as MainActivity?
+        mainActivity?.setStarIconVisibility(View.VISIBLE)
     }
 
 
@@ -55,11 +55,9 @@ class RepoDetailFragment : Fragment() {
                 it1
             )
         } }
-        userName?.let { utils.setTextView(it, userRepoListForHomeFragment?.get(selectedPosition)?.owner?.login.toString()) }
-        repoStarsText?.let { utils.setTextView(it,"Stars: "+
-            userRepoListForHomeFragment?.get(selectedPosition)?.stargazersCount.toString()
-        ) }
-        repoOpenIssues?.let { utils.setTextView(it, "Open Issues: "+userRepoListForHomeFragment?.get(selectedPosition)?.openIssuesCount.toString()) }
+        userName?.text=userRepoListForHomeFragment?.get(selectedPosition)?.owner?.login.toString()
+        repoStarsText?.text="Stars: "+ userRepoListForHomeFragment?.get(selectedPosition)?.stargazersCount.toString()
+        repoOpenIssues?.text="Open Issues: "+userRepoListForHomeFragment?.get(selectedPosition)?.openIssuesCount.toString()
     }
 
     companion object {

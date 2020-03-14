@@ -70,6 +70,9 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+
+        val mainActivity = activity as MainActivity?
+        mainActivity?.setStarIconVisibility(View.GONE)
     }
 
     private fun observableLiveData(){

@@ -2,20 +2,21 @@ package com.example.githubrepolist.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getSystemService
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubrepolist.R
-import com.example.githubrepolist.view.MainActivity
 import com.example.githubrepolist.view.MainActivity.Companion.mainActivityContext
 
 
 class Util {
+    private val sharedPref: SharedPreferences = mainActivityContext!!.getSharedPreferences(
+        mainActivityContext!!.getString(R.string.save_star_shared_name), Context.MODE_PRIVATE)
+
     fun loadImageWithGlide(context:Context,url:String,intoView:ImageView){
         val options: RequestOptions = RequestOptions()
             .centerCrop()
@@ -40,6 +41,23 @@ class Util {
             view = View(mainActivityContext)
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+    }
+
+    fun saveToLocal(KEY_NAME: String, value:String?){
+        val savedRepoIDList=getValueFromLocal(mainActivityContext!!.getString(R.string.save_star_shared_name))
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        if(1==1){
+            savedRepoIDList?.add(value.toString())
+        }
+        else{
+            savedRepoIDList?.remove(value.toString())
+        }
+        editor.putStringSet(KEY_NAME, savedRepoIDList)
+        editor.apply()
+    }
+
+    fun getValueFromLocal(KEY_NAME: String): MutableSet<String>? {
+        return sharedPref.getStringSet(KEY_NAME, null)
     }
 
 }
