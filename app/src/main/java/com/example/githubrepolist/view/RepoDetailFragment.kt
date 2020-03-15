@@ -1,5 +1,7 @@
 package com.example.githubrepolist.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +17,11 @@ import com.example.githubrepolist.utils.Util
 
 class RepoDetailFragment : Fragment() {
     var userImage:ImageView?=null
+    var openGithubImage:ImageView?=null
     var userName:TextView?=null
     var repoStarsText:TextView?=null
     var repoOpenIssues:TextView?=null
+    var repoDescription:TextView?=null
     private lateinit var utils : Util
   //  private lateinit var mainActivity: MainActivity
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,18 @@ class RepoDetailFragment : Fragment() {
         setViewDatas()
         val mainActivity = activity as MainActivity?
         mainActivity?.setStarIconVisibility(View.VISIBLE)
+        mainActivity?.setStarTintColor(userRepoListForHomeFragment?.get(selectedPosition)?.id.toString())
+        userRepoListForHomeFragment?.get(selectedPosition)?.name?.let {
+            mainActivity?.setToolbarTitleText(
+                it
+            )
+        }
+
+        openGithubImage?.setOnClickListener {
+            val browserIntent =
+                Intent(Intent.ACTION_VIEW, Uri.parse(userRepoListForHomeFragment?.get(selectedPosition)?.htmlUrl))
+            startActivity(browserIntent)
+        }
     }
 
 
@@ -47,6 +63,8 @@ class RepoDetailFragment : Fragment() {
         userName=view.findViewById(R.id.user_name)
         repoStarsText=view.findViewById(R.id.repo_stars_text)
         repoOpenIssues=view.findViewById(R.id.repo_open_issue_text)
+        repoDescription=view.findViewById(R.id.repo_description_text)
+        openGithubImage=view.findViewById(R.id.open_github_image)
     }
 
     private fun setViewDatas(){
@@ -58,8 +76,6 @@ class RepoDetailFragment : Fragment() {
         userName?.text=userRepoListForHomeFragment?.get(selectedPosition)?.owner?.login.toString()
         repoStarsText?.text="Stars: "+ userRepoListForHomeFragment?.get(selectedPosition)?.stargazersCount.toString()
         repoOpenIssues?.text="Open Issues: "+userRepoListForHomeFragment?.get(selectedPosition)?.openIssuesCount.toString()
-    }
-
-    companion object {
+        repoDescription?.text=userRepoListForHomeFragment?.get(selectedPosition)?.description.toString()
     }
 }

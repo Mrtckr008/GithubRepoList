@@ -2,35 +2,53 @@ package com.example.githubrepolist.view
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.githubrepolist.R
+import com.example.githubrepolist.adapter.UsersRepoAdapter
 import com.example.githubrepolist.utils.Util
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-    var imageView:ImageView?=null
+    var favoriteStarIcon:ImageView?=null
+    var toolbarTitle:TextView?=null
+    var toolbarBackButton:ImageView?=null
     private lateinit var navigationController : NavController
+    var savedRepoIDList :HashSet<String>?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mainActivityContext=this
+
         navigationController = Navigation.findNavController(this, R.id.navigation_fragment)
     //    NavigationUI.setupActionBarWithNavController(this,navigationController)
-        savedRepoIDList= Util().getValueFromLocal(this.getString(R.string.save_star_shared_name))
+
         val mTopToolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbarTitle = findViewById(R.id.toolbar_title)
+        toolbarBackButton = findViewById(R.id.toolbar_back_button)
+
         setSupportActionBar(mTopToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        favoriteStarIcon=findViewById(R.id.toolbar_star_icon)
 
-
-
-        println("mcmcmc saved index is-> ${savedRepoIDList?.size}")
+        favoriteStarIcon?.setOnClickListener {
+            Util().scaleAnimation(favoriteStarIcon!!)
+            Util().saveToLocal(this.getString(R.string.save_star_shared_name),
+                UsersRepoAdapter.userRepoListForHomeFragment?.get(UsersRepoAdapter.selectedPosition)?.id.toString())
+            savedRepoIDList= Util().getValueFromLocal(this.getString(R.string.save_star_shared_name)) as HashSet<String>?
+            setStarTintColor(UsersRepoAdapter.userRepoListForHomeFragment?.get(UsersRepoAdapter.selectedPosition)?.id.toString())
+        }
+        toolbarBackButton?.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -38,12 +56,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setStarIconVisibility(visibilityStatus:Int){
-        imageView=this.findViewById(R.id.toolbar_star_icon)
-        imageView!!.visibility = visibilityStatus
+        favoriteStarIcon!!.visibility = visibilityStatus
+        toolbarBackButton?.visibility = visibilityStatus
     }
+
+    fun setStarTintColor(repoId:String){
+        savedRepoIDList = Util().getValueFromLocal(this.getString(R.string.save_star_shared_name)) as HashSet<String>?
+        if (Util().containsSubString(savedRepoIDList,repoId)) {
+            favoriteStarIcon?.setColorFilter(
+                ContextCompat.getColor(this, R.color.colorFavoriteStar),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
+        }
+        else {
+            favoriteStarIcon?.setColorFilter(
+                ContextCompat.getColor(this, R.color.colorStarDefault),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
+        }
+    }
+
+    fun setToolbarTitleText(title:String){
+        toolbarTitle?.text=title
+    }
+
+
 
     companion object{
         var mainActivityContext : Activity?=null
-        var savedRepoIDList :MutableSet<String>?=null
     }
 }

@@ -72,11 +72,12 @@ class HomeFragment : Fragment() {
         })
 
         val mainActivity = activity as MainActivity?
-        mainActivity?.setStarIconVisibility(View.GONE)
+        mainActivity?.setStarIconVisibility(View.INVISIBLE)
+        mainActivity?.setToolbarTitleText("Home")
     }
 
     private fun observableLiveData(){
-        viewModel.usersRepoList.observe(this, Observer{
+        viewModel.usersRepoList.observe(viewLifecycleOwner, Observer{
             UserRepo ->
                 UserRepo?.let {
                     usersRepoAdapter.updateUsersRepoList(UserRepo)

@@ -4,9 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubrepolist.R
@@ -14,6 +15,7 @@ import com.example.githubrepolist.view.MainActivity.Companion.mainActivityContex
 
 
 class Util {
+    var savedStarRepoArrayList: ArrayList<String>?= arrayListOf()
     private val sharedPref: SharedPreferences = mainActivityContext!!.getSharedPreferences(
         mainActivityContext!!.getString(R.string.save_star_shared_name), Context.MODE_PRIVATE)
 
@@ -27,32 +29,30 @@ class Util {
             .into(intoView)
     }
 
-    fun setTextView(view:TextView,value:String){
-        view.text=value
-    }
-
     fun hideKeyboard(){
         val imm: InputMethodManager =
             mainActivityContext?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        var view: View? = mainActivityContext?.getCurrentFocus()
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        var view: View? = mainActivityContext?.currentFocus
         if (view == null) {
             view = View(mainActivityContext)
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     fun saveToLocal(KEY_NAME: String, value:String?){
-        val savedRepoIDList=getValueFromLocal(mainActivityContext!!.getString(R.string.save_star_shared_name))
+        val savedStarReposList = getValueFromLocal(mainActivityContext!!.getString(R.string.save_star_shared_name))
+        if (savedStarReposList != null) {
+            savedStarRepoArrayList?.addAll(savedStarReposList)
+        }
         val editor: SharedPreferences.Editor = sharedPref.edit()
-        if(1==1){
-            savedRepoIDList?.add(value.toString())
+        if(containsSubString(savedStarReposList as HashSet<String>?,value)){
+            savedStarRepoArrayList?.remove(value.toString())
         }
         else{
-            savedRepoIDList?.remove(value.toString())
+            savedStarRepoArrayList?.add(value.toString())
         }
-        editor.putStringSet(KEY_NAME, savedRepoIDList)
+        println("mcmcmc x->$savedStarRepoArrayList")
+        editor.putStringSet(KEY_NAME, savedStarRepoArrayList?.toHashSet())
         editor.apply()
     }
 
@@ -60,4 +60,25 @@ class Util {
         return sharedPref.getStringSet(KEY_NAME, null)
     }
 
+    fun containsSubString(stringArray: HashSet<String>?, substring: String?): Boolean {
+        if (stringArray != null) {
+            for (string in stringArray) {
+                if (string.contains(substring!!))
+                    return true
+            }
+        }
+        return false
+    }
+
+    fun scaleAnimation(v:View){
+        val anim: Animation = ScaleAnimation(
+            1f, 1.4f, 1f, 1.4f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        )
+        anim.repeatCount=0
+        anim.fillAfter = false // Needed to keep the result of the animation
+        anim.duration = 400
+        v.startAnimation(anim)
+    }
 }

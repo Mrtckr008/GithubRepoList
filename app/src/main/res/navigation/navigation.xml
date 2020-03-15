@@ -9,7 +9,10 @@
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_repoDetailFragment"
-            app:destination="@id/repoDetailFragment" />
+            app:destination="@id/repoDetailFragment"
+            app:enterAnim="@anim/fade_in_alpha"
+            app:exitAnim="@anim/fade_out_alpha"
+            app:popEnterAnim="@anim/fade_in_alpha" />
     </fragment>
     <fragment
         android:id="@+id/repoDetailFragment"
