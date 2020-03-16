@@ -23,7 +23,7 @@ class RepoDetailFragment : Fragment() {
     var repoOpenIssues:TextView?=null
     var repoDescription:TextView?=null
     private lateinit var utils : Util
-  //  private lateinit var mainActivity: MainActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

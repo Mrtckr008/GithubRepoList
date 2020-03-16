@@ -55,7 +55,6 @@ class Util {
         else{
             savedStarRepoArrayList?.add(value.toString())
         }
-        println("mcmcmc x->$savedStarRepoArrayList")
         editor.putStringSet(KEY_NAME, savedStarRepoArrayList?.toHashSet())
         editor.apply()
     }

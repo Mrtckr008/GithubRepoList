@@ -92,6 +92,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observableLiveData(){
+        // observe to response from API with method of LiveData.
         viewModel.usersRepoList.observe(viewLifecycleOwner, Observer{
             UserRepo ->
                 UserRepo?.let {
@@ -100,6 +101,7 @@ class HomeFragment : Fragment() {
                 }
         })
 
+        // observe to loading of repository when wait response with method of LiveData.
         viewModel.repositoryLoading.observe(viewLifecycleOwner, Observer{
                 loading ->
             loading?.let {

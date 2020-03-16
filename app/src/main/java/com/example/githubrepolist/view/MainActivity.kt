@@ -35,9 +35,9 @@ class MainActivity : AppCompatActivity() {
 
         val policy = StrictMode.ThreadPolicy.Builder()
             .permitAll().build()
-        StrictMode.setThreadPolicy(policy)
+        StrictMode.setThreadPolicy(policy)              // using for check internet connection.
 
-        navigationController = Navigation.findNavController(this, R.id.navigation_fragment)
+        navigationController = Navigation.findNavController(this, R.id.navigation_fragment)     // set up to naviga
     //    NavigationUI.setupActionBarWithNavController(this,navigationController)
 
         val mTopToolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -88,8 +88,6 @@ class MainActivity : AppCompatActivity() {
     fun setToolbarTitleText(title:String){
         toolbarTitle?.text=title
     }
-
-
 
     companion object{
         var mainActivityContext : Activity?=null

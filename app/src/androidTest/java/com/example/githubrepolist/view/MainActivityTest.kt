@@ -37,10 +37,11 @@ class MainActivityTest {
 
         onView(withId(R.id.recyclerview_repo)).check(matches(isDisplayed()))
         try {
+            // In this line, you should be sure your phone is developer mode and
+            // you should be sure set as off animation features from developer settings.
             onView(withId(R.id.recyclerview_repo)).perform(actionOnItemAtPosition<UsersRepoAdapter.FeedViewHolder>(0, viewAction(R.id.repo_name)))
         }
         catch (e:Exception){
-            onView(withId(R.id.recyclerview_repo)).perform(actionOnItemAtPosition<UsersRepoAdapter.FeedViewHolder>(0, viewAction(R.id.repo_name)))
         }
         onView(withId(R.id.user_name)).check(matches(withText("Mrtckr008")))
 

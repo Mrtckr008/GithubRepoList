@@ -17,12 +17,17 @@ import io.reactivex.schedulers.Schedulers
 
 class UserRepoViewModel: ViewModel() {
     private val userRepoAPIService = UserRepoAPIService()
-    private val disposable = CompositeDisposable()          // her calldan sonra hafızayı boşaltmak için ders 34-2:36,
+    private val disposable = CompositeDisposable()
 
     val usersRepoList = MutableLiveData<List<UserRepo>>()
     val repositoryLoading = MutableLiveData<Boolean>()
 
     fun getUseRepoDataFromApi(){
+        /*
+        Request to API with method of RxJaxa. Observable has a method called onComplete() that will do the disposing for you when called.
+        A backend request is done and the Disposable returned from the subscribe() method is added to the list of CompositeDisposables.
+        The moment the Activity will be destroyed, the list of Disposables gets cleared and thats why i use method of disposable.
+         */
         disposable.add(
             userRepoAPIService.getData()
                 .subscribeOn(Schedulers.newThread())
@@ -39,7 +44,7 @@ class UserRepoViewModel: ViewModel() {
                         usersRepoList.value= arrayListOf()
                         repositoryLoading.value=true
                         Handler().postDelayed({
-                            Toast.makeText(mainActivityContext,"There is no user with the username \"${dynamicUrl}\".",Toast.LENGTH_LONG).show()
+                            Toast.makeText(mainActivityContext,"There is no user with the username \"${dynamicUrl}\"",Toast.LENGTH_LONG).show()
                         },400)
                         repositoryLoading.value=false
                     }
