@@ -74,6 +74,11 @@ class HomeFragment : Fragment() {
         val mainActivity = activity as MainActivity?
         mainActivity?.setStarIconVisibility(View.INVISIBLE)
         mainActivity?.setToolbarTitleText("Home")
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getUseRepoDataFromApi()
+
+        }
     }
 
     private fun observableLiveData(){
@@ -81,6 +86,7 @@ class HomeFragment : Fragment() {
             UserRepo ->
                 UserRepo?.let {
                     usersRepoAdapter.updateUsersRepoList(UserRepo)
+                    swipeRefreshLayout.isRefreshing=false
                 }
         })
     }
