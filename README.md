@@ -10,3 +10,4 @@ https://dosya.co/3pa8qcto2vgn/app-debug.apk.html
 <img src="https://user-images.githubusercontent.com/32914909/76787199-968afd00-67c9-11ea-85dd-a0693522978c.png" width="400" height="700"> 
 <img src="https://user-images.githubusercontent.com/32914909/76787210-9b4fb100-67c9-11ea-9ceb-5484084c29da.png" width="400" height="700"> 
 <img src="https://user-images.githubusercontent.com/32914909/76787221-9e4aa180-67c9-11ea-8816-b7c6d3483992.png" width="400" height="700">
+
