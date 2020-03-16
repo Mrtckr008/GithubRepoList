@@ -51,6 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_editText">
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_repo"
                 android:layout_width="0dp"
@@ -58,10 +59,13 @@
                 android:background="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search_editText" />
+                app:layout_constraintStart_toStartOf="parent" />
+
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     </layout>

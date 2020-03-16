@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Github Repo List</string>
     <string name="save_star_shared_name">GithubRepoFavoriteList</string>
+    <string name="noConnection">There is no connection.</string>
 </resources>

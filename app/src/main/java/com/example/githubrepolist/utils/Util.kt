@@ -3,6 +3,7 @@ package com.example.githubrepolist.utils
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.CountDownTimer
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
@@ -12,12 +13,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.githubrepolist.R
 import com.example.githubrepolist.view.MainActivity.Companion.mainActivityContext
+import java.net.InetAddress
+import java.net.UnknownHostException
 
 
 class Util {
     var savedStarRepoArrayList: ArrayList<String>?= arrayListOf()
     private val sharedPref: SharedPreferences = mainActivityContext!!.getSharedPreferences(
         mainActivityContext!!.getString(R.string.save_star_shared_name), Context.MODE_PRIVATE)
+    var timer:CountDownTimer?=null
 
     fun loadImageWithGlide(context:Context,url:String,intoView:ImageView){
         val options: RequestOptions = RequestOptions()
@@ -80,5 +84,15 @@ class Util {
         anim.fillAfter = false // Needed to keep the result of the animation
         anim.duration = 400
         v.startAnimation(anim)
+    }
+
+
+    fun isInternetAvailable(): Boolean {
+        try {
+            val address = InetAddress.getByName("www.google.com")
+            return !address.equals("")
+        } catch (e: UnknownHostException) { // Log error
+        }
+        return false
     }
 }

@@ -2,7 +2,7 @@ package com.example.githubrepolist.view
 
 import android.app.Activity
 import android.os.Bundle
-import android.widget.Button
+import android.os.StrictMode
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         mainActivityContext=this
+
+        val policy = StrictMode.ThreadPolicy.Builder()
+            .permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
         navigationController = Navigation.findNavController(this, R.id.navigation_fragment)
     //    NavigationUI.setupActionBarWithNavController(this,navigationController)
@@ -79,8 +83,6 @@ class MainActivity : AppCompatActivity() {
     fun setToolbarTitleText(title:String){
         toolbarTitle?.text=title
     }
-
-
 
     companion object{
         var mainActivityContext : Activity?=null

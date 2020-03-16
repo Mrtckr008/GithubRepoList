@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.githubrepolist.adapter.UsersRepoAdapter
 import com.example.githubrepolist.R
 import com.example.githubrepolist.service.UserRepoAPIService.Companion.dynamicUrl
+import com.example.githubrepolist.utils.Util
 import com.example.githubrepolist.viewmodel.UserRepoViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -49,15 +52,24 @@ class HomeFragment : Fragment() {
         var userSearchSubmitButton:Button?=null
         userSearchSubmitButton=view.findViewById(R.id.submit_button)
 
+
+
         viewModel= ViewModelProviders.of(this).get(UserRepoViewModel::class.java)
 
         repoRecyclerView.layoutManager = LinearLayoutManager(context)
         repoRecyclerView.adapter = usersRepoAdapter
 
         userSearchSubmitButton.setOnClickListener{
-         //   activity.hideSoftKeyboard(false)
-            dynamicUrl=userSearchEditText.text.toString()
-            viewModel.getUseRepoDataFromApi()
+            if(Util().isInternetAvailable()){
+                dynamicUrl=userSearchEditText.text.toString()
+                viewModel.getUseRepoDataFromApi()
+            }
+            else{
+                Toast.makeText(
+                    MainActivity.mainActivityContext, MainActivity.mainActivityContext?.getString(R.string.noConnection),
+                    Toast.LENGTH_SHORT).show()
+            }
+
         }
         observableLiveData()
 
@@ -77,7 +89,6 @@ class HomeFragment : Fragment() {
 
         swipeRefreshLayout.setOnRefreshListener {
             viewModel.getUseRepoDataFromApi()
-
         }
     }
 

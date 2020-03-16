@@ -1,13 +1,9 @@
 package com.example.githubrepolist.viewmodel
 
-import android.app.Activity
 import android.os.Handler
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.githubrepolist.adapter.UsersRepoAdapter
 import com.example.githubrepolist.model.UserRepo
 import com.example.githubrepolist.service.UserRepoAPIService
 import com.example.githubrepolist.service.UserRepoAPIService.Companion.dynamicUrl

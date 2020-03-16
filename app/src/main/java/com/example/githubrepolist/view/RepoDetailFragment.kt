@@ -40,7 +40,7 @@ class RepoDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         utils= Util()
         findViews(view)
-        setViewDatas()
+        setViewData()
         val mainActivity = activity as MainActivity?
         mainActivity?.setStarIconVisibility(View.VISIBLE)
         mainActivity?.setStarTintColor(userRepoListForHomeFragment?.get(selectedPosition)?.id.toString())
@@ -67,7 +67,7 @@ class RepoDetailFragment : Fragment() {
         openGithubImage=view.findViewById(R.id.open_github_image)
     }
 
-    private fun setViewDatas(){
+    private fun setViewData(){
         MainActivity.mainActivityContext?.let { userImage?.let { it1 ->
             utils.loadImageWithGlide(it, userRepoListForHomeFragment?.get(selectedPosition)?.owner?.avatarUrl.toString(),
                 it1
@@ -76,6 +76,12 @@ class RepoDetailFragment : Fragment() {
         userName?.text=userRepoListForHomeFragment?.get(selectedPosition)?.owner?.login.toString()
         repoStarsText?.text="Stars: "+ userRepoListForHomeFragment?.get(selectedPosition)?.stargazersCount.toString()
         repoOpenIssues?.text="Open Issues: "+userRepoListForHomeFragment?.get(selectedPosition)?.openIssuesCount.toString()
-        repoDescription?.text=userRepoListForHomeFragment?.get(selectedPosition)?.description.toString()
+        if(userRepoListForHomeFragment?.get(selectedPosition)?.description==null){
+            repoDescription?.text="There is no description for this repository"
+        }
+        else{
+            repoDescription?.text=userRepoListForHomeFragment?.get(selectedPosition)?.description.toString()
+        }
+
     }
 }
