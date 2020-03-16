@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class UserRepoAPIService {
     companion object{
-        var dynamicUrl="mrtckr008"
+        var dynamicUrl=""
     }
     var appApiBaseUrl="https://api.github.com/"
     private val api=Retrofit.Builder()

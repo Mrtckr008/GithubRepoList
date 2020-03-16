@@ -3,6 +3,8 @@ package com.example.githubrepolist.view
 import android.app.Activity
 import android.os.Bundle
 import android.os.StrictMode
+import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +16,9 @@ import androidx.navigation.ui.NavigationUI
 import com.example.githubrepolist.R
 import com.example.githubrepolist.adapter.UsersRepoAdapter
 import com.example.githubrepolist.utils.Util
+import com.example.githubrepolist.viewmodel.UserRepoViewModel
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -83,6 +88,8 @@ class MainActivity : AppCompatActivity() {
     fun setToolbarTitleText(title:String){
         toolbarTitle?.text=title
     }
+
+
 
     companion object{
         var mainActivityContext : Activity?=null

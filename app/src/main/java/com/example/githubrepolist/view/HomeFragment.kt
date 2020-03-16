@@ -52,8 +52,6 @@ class HomeFragment : Fragment() {
         var userSearchSubmitButton:Button?=null
         userSearchSubmitButton=view.findViewById(R.id.submit_button)
 
-
-
         viewModel= ViewModelProviders.of(this).get(UserRepoViewModel::class.java)
 
         repoRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -69,7 +67,8 @@ class HomeFragment : Fragment() {
                     MainActivity.mainActivityContext, MainActivity.mainActivityContext?.getString(R.string.noConnection),
                     Toast.LENGTH_SHORT).show()
             }
-
+            progressBar.visibility = View.VISIBLE
+            recyclerview_repo.visibility=View.GONE
         }
         observableLiveData()
 
@@ -99,6 +98,19 @@ class HomeFragment : Fragment() {
                     usersRepoAdapter.updateUsersRepoList(UserRepo)
                     swipeRefreshLayout.isRefreshing=false
                 }
+        })
+
+        viewModel.repositoryLoading.observe(viewLifecycleOwner, Observer{
+                loading ->
+            loading?.let {
+                if (it) {
+                    progressBar.visibility = View.VISIBLE
+                    recyclerview_repo.visibility = View.GONE
+                } else {
+                    progressBar.visibility = View.GONE
+                    recyclerview_repo.visibility = View.VISIBLE
+                }
+            }
         })
     }
 }

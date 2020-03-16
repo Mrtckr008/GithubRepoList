@@ -20,6 +20,7 @@ class UserRepoViewModel: ViewModel() {
     private val disposable = CompositeDisposable()          // her calldan sonra hafızayı boşaltmak için ders 34-2:36,
 
     val usersRepoList = MutableLiveData<List<UserRepo>>()
+    val repositoryLoading = MutableLiveData<Boolean>()
 
     fun getUseRepoDataFromApi(){
         disposable.add(
@@ -30,14 +31,17 @@ class UserRepoViewModel: ViewModel() {
                     override fun onSuccess(t: List<UserRepo>) {
                         Util().hideKeyboard()
                         usersRepoList.value=t
+                        repositoryLoading.value=false
                     }
 
                     override fun onError(e: Throwable) {
                         Util().hideKeyboard()
                         usersRepoList.value= arrayListOf()
+                        repositoryLoading.value=true
                         Handler().postDelayed({
                             Toast.makeText(mainActivityContext,"There is no user with the username \"${dynamicUrl}\".",Toast.LENGTH_LONG).show()
                         },400)
+                        repositoryLoading.value=false
                     }
                 })
         )
